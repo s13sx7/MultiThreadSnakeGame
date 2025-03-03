@@ -3,11 +3,12 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-struct termios old_setings;
+struct termios old_settings;
 
 void set_input_mode(){
     struct termios settings;
-    tcgetattr(STDIN_FILENO, &settings);
+    tcgetattr(STDIN_FILENO, &old_settings);
+    settings = old_settings;
     settings.c_lflag &= ~ICANON;
     settings.c_lflag &= ~ECHO; 
     tcsetattr(STDIN_FILENO, TCSANOW, &settings);
